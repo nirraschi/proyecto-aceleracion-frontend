@@ -91,7 +91,7 @@ export default function ExportPage() {
                     disabled={currentPage === totalPages}
                     className="px-3 py-1 bg-blue-500 text-white rounded disabled:bg-gray-300"
                 >
-                    Siguiente
+                    Siguienteee
                 </button>
             </div>
         </div>
