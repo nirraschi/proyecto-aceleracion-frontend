@@ -91,9 +91,25 @@ export default function ExportPage() {
                     disabled={currentPage === totalPages}
                     className="px-3 py-1 bg-blue-500 text-white rounded disabled:bg-gray-300"
                 >
-                    Siguienteee
+                    Siguiente
                 </button>
+
+
             </div>
+            <div className='flex w-full justify-center'>
+            <button
+                className="mt-4 p-2 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+            >
+                Exportar a PDF
+            </button>
+            </div>
+
+            <h3 className="mt-8 text-xl font-bold mb-4">Generar reporte IA</h3>
+            <p>Genera un resumen de todas las respuestas del mes, utilizando inteligencia artificial.
+            Genera además, consejos para resolver las problematicas planteadas.</p>   
+
+          
+
         </div>
     );
 }

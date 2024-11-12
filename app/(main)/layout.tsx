@@ -1,15 +1,15 @@
 "use client";
 import { usePathname } from 'next/navigation';
-import { FaHome, FaPlay, FaCog, FaFileExport } from 'react-icons/fa';
+import { Iconify } from '../components/iconify';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
 
     const navItems = [
-        { href: '/home', label: 'Inicio', icon: <FaHome className='mr-3'/> },
-        { href: '/start', label: 'Empezar', icon: <FaPlay className='mr-3'/> },
-        { href: '/settings', label: 'Configurar', icon: <FaCog className='mr-3'/> },
-        { href: '/export', label: 'Exportar', icon: <FaFileExport className='mr-3'/> },
+        { href: '/home', label: 'Inicio', icon: <Iconify icon="ri:home-line" width={25} className='mr-3'/> },
+        { href: '/start', label: 'Empezar', icon: <Iconify icon="iconoir:star" width={25} className='mr-3'/> },
+        { href: '/settings', label: 'Configurar', icon: <Iconify icon="carbon:settings" width={25} className='mr-3'/> },
+        { href: '/export', label: 'Exportar',icon: <Iconify icon="material-symbols:file-export-outline" width={25} className='mr-3'/> },
     ];
 
     return (
