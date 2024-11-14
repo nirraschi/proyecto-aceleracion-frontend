@@ -1,6 +1,7 @@
 "use client";
 import { usePathname } from 'next/navigation';
 import { Iconify } from '../components/iconify';
+import Link from 'next/link';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -19,7 +20,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     <h1 className='text-xl font-semibold mb-4'>LookBack</h1>
                     <div className="flex-1 space-y-4 ">
                         {navItems.map((item) => (
-                            <a
+                            <Link
                                 key={item.href}
                                 href={item.href}
                                 className={`flex items-center px-4 py-2 text-sm rounded-md  ${
@@ -30,7 +31,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                             >
                                 {item.icon} {/* Ícono agregado antes del texto */}
                                 {item.label}
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </nav>
