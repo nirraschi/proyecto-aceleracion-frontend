@@ -1,13 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { createQuestionStore } from '@/app/store/question-store'
+
+const useQuestionStore = createQuestionStore()
 
 export default function StartPage() {
     const [selectedMonth, setSelectedMonth] = useState<string>('')
     const [randomQuestion, setRandomQuestion] = useState<string>('')
-    const [name, setName] = useState<string>('')
     const [answer, setAnswer] = useState<string>('')
     const [randomName, setRandomName] = useState<string>('')
+
+
+    const { questions, teamMembers, fetchQuestions, fetchTeamMembers } = useQuestionStore()
+
+    useEffect(() => {
+        fetchQuestions()
+        fetchTeamMembers()
+    }, [])
+
+// agregar componente que permita seleccionar mes y año
+// logica para guardar respuesta +  pregunta +  date + member
 
     const months = [
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -15,22 +29,15 @@ export default function StartPage() {
     ]
 
     const generateRandomQuestion = () => {
-        const questions = [
-            '¿Qué salió bien en este sprint y debemos seguir haciendo?',
-            '¿Qué desafíos enfrentamos y cómo los superamos?',
-            '¿Qué fue lo más frustrante de este sprint y cómo podríamos evitarlo en el futuro?',
-            '¿Qué aprendimos como equipo durante este sprint?',
-            '¿Qué recursos o apoyo nos faltaron y habrían hecho la diferencia?'
-        ]
-        const randomIndex = Math.floor(Math.random() * questions.length)
-        setRandomQuestion(questions[randomIndex])
-        generateRandomName()
-    }
-
-    const generateRandomName = () => {
-        const names = ['Ana', 'Juan', 'María', 'Carlos', 'Laura', 'Pedro', 'Sofía', 'Miguel']
-        const randomIndex = Math.floor(Math.random() * names.length)
-        setRandomName(names[randomIndex])
+        if (questions.length > 0 && teamMembers.length > 0) {
+            const randomQuestionIndex = Math.floor(Math.random() * questions.length)
+            const randomTeamMemberIndex = Math.floor(Math.random() * teamMembers.length)
+            setRandomQuestion(questions[randomQuestionIndex].text)
+            setRandomName(teamMembers[randomTeamMemberIndex].name)
+        } else {
+            setRandomQuestion('No hay preguntas o miembros del equipo disponibles.')
+            setRandomName('')
+        }
     }
 
     const handleSubmit = () => {
@@ -41,22 +48,13 @@ export default function StartPage() {
         // Aquí puedes agregar la lógica para enviar la respuesta
     }
 
+
+
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
             <div className="flex justify-between mb-4">
-                <button className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                    Ver Historial
-                </button>
-                <select
-                    value={selectedMonth}
-                    onChange={(e) => setSelectedMonth(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    <option value="">Elegir mes</option>
-                    {months.map((month) => (
-                        <option key={month} value={month.toLowerCase()}>{month}</option>
-                    ))}
-                </select>
+
+        <p>date picker</p>
             </div>
 
             <button
@@ -88,6 +86,7 @@ export default function StartPage() {
             >
                 Enviar respuesta
             </button>
+
         </div>
     )
 }
