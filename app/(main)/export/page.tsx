@@ -6,7 +6,7 @@ import { useAnswerStore } from '@/app/store/answers-store';
 
 export default function ExportPage() {
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const itemsPerPage = 5;
+    const itemsPerPage = 8;
     const [selectedDate, setSelectedDate] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -69,8 +69,10 @@ export default function ExportPage() {
 
     return (
         <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-            {/* Selector de fecha */}
-            <div className="mb-6 flex items-center">
+            
+            <p>Selecciona la fecha de la retrospectiva a exportar:</p>
+            <div className="my-6 flex items-center">
+                
                 <DateSelector onDateChange={handleDateChange} />
                 <button
                     onClick={handleSearch}

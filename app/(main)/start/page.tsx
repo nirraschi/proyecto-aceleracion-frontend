@@ -26,9 +26,12 @@ export default function StartPage() {
         if (month && year) {
             const formattedMonth = String(parseInt(month)).padStart(2, '0') // Asegurarse de que el mes sea de 2 dígitos
             const formattedDate = `${year}-${formattedMonth}` // Crea el formato "YYYY-MM"
-            setSelectedDate(formattedDate)
+            setSelectedDate(formattedDate) // Actualiza el estado con la fecha seleccionada
+            
             setErrorMessage('') // Limpia el mensaje de error
-        } else {
+
+        } 
+        else {
             setSelectedDate('') // Resetea la fecha si falta información
         }
     }
@@ -46,7 +49,7 @@ export default function StartPage() {
     }
 
     const handleSubmit = () => {
-        if (!selectedDate) {
+        if (!selectedDate ) {
             setErrorMessage('Por favor, selecciona el mes y el año antes de enviar.')
             return
         }
@@ -64,7 +67,7 @@ export default function StartPage() {
                     setAnswerMem('')
                     setRandomQuestion('')
                     setRandomName('')
-                    setSelectedDate('')
+                    //setSelectedDate('')
                     setErrorMessage('') // Limpia el mensaje de error al enviar correctamente
                 })
                 .catch((error) => {
