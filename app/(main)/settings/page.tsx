@@ -1,7 +1,9 @@
 'use client'
+//el nuevo codigo agrega scroll y numeracion de preguntas
 
 import { useState, useEffect } from 'react'
 import { createQuestionStore } from '@/app/store/question-store'
+import { Icon } from '@iconify/react'
 
 const useQuestionStore = createQuestionStore()
 
@@ -87,21 +89,25 @@ export default function Settings() {
       </div>
 
       <h2 className="text-xl font-bold mb-4">Lista de preguntas</h2>
-      <div className="mb-8">
-        {questions.map((question) => (
+      <div className="mb-8 border border-gray-300 rounded-md p-3 max-h-64 overflow-y-scroll">
+        {questions.map((question, index) => (
           <div key={question.id} className="flex items-center mb-2">
+            {/* numero de pregunta */}
+            <span className="text-sm font-bold mr-2">{index + 1}.</span>
+            {/* texto de pregunta */}
             <span className="text-sm flex-grow">{question.text}</span>
+            {/* botones editar y borrar */}
             <button
               onClick={() => handleStartEditing(question.id, question.text)}
-              className="text-sm px-2 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 mr-2"
+              className="text-sm px-2 py-1 text-white"
             >
-              Editar
+              <Icon icon="mdi:pencil" className="text-slate-800 text-lg hover:text-yellow-600" />
             </button>
             <button
               onClick={() => deleteQuestion(question.id)}
-              className="text-sm px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+              className="text-sm px-2 py-1  text-slate-800 rounded-sm hover:text-red-700 "
             >
-              Borrar
+              <Icon icon="mdi:delete" className="text-slate-800 text-lg hover:text-red-700" />
             </button>
           </div>
         ))}
