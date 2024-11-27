@@ -2,10 +2,9 @@
 //el nuevo codigo agrega scroll y numeracion de preguntas
 
 import { useState, useEffect } from 'react'
-import { createQuestionStore } from '@/app/store/question-store'
+import { useQuestionStore } from '@/app/store/question-store'
 import { Icon } from '@iconify/react'
 
-const useQuestionStore = createQuestionStore()
 
 export default function Settings() {
   const [newMember, setNewMember] = useState('')

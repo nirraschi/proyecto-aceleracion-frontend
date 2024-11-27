@@ -6,9 +6,8 @@ export async function GET(request: Request) {
     try {
         // Obtener la fecha desde los parámetros de la URL o la consulta
         const url = new URL(request.url);
-        const dateParam = url.searchParams.get("date"); // Ejemplo de "YYYY-MM"
+        const dateParam = url.searchParams.get("date"); 
 
-        // Referencia a la colección "answers"
         const answersRef = collection(db, "answers");
 
         let querySnapshot;
@@ -22,7 +21,7 @@ export async function GET(request: Request) {
             querySnapshot = await getDocs(answersRef);
         }
 
-        // Mapear los documentos para devolver todos los campos relevantes
+    
         const answers = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),

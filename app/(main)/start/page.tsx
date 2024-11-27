@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import DateSelector from '../../components/DateSelector/date-selector'
-import { createQuestionStore } from '@/app/store/question-store'
+import { useQuestionStore } from '@/app/store/question-store'
 import { useAnswerStore } from '@/app/store/answers-store'
 
-const useQuestionStore = createQuestionStore()
 
 export default function StartPage() {
     const [randomQuestion, setRandomQuestion] = useState<string>('')

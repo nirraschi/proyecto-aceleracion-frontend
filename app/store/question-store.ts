@@ -16,6 +16,7 @@ interface TeamMember {
 interface QuestionStore {
     questions: Question[]
     teamMembers: TeamMember[]
+    aiReport: string
     fetchQuestions: () => Promise<void>
     fetchTeamMembers: () => Promise<void>
     addQuestion: (text: string) => Promise<void>
@@ -23,11 +24,18 @@ interface QuestionStore {
     deleteQuestion: (id: string) => Promise<void>
     addTeamMember: (name: string) => Promise<void>
     deleteTeamMember: (id: string) => Promise<void>
+    generateAiReport: (prompt: string) => Promise<void>
 }
 
-export const createQuestionStore = () => create<QuestionStore>((set) => ({
+export const useQuestionStore = create<QuestionStore>((set) => ({
     questions: [],
     teamMembers: [],
+
+    aiReport: '',
+    generateAiReport: async (prompt: string) => {
+        const response = await axios.post('/api/ai', { prompt })
+        set({ aiReport: response.data.content[0].text })
+    },
 
     fetchQuestions: async () => {
         const response = await axios.get('/api/questions')

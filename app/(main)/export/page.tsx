@@ -3,22 +3,24 @@
 import { useState, useEffect } from 'react';
 import DateSelector from '@/app/components/DateSelector/date-selector';
 import { useAnswerStore } from '@/app/store/answers-store';
+import { Table, TableHead, TableBody, TableRow, TableCell, TableHeader } from '@/components/ui/table';
+import { generatePDF } from '@/app/components/JsPDF/jsPdf';
+import { useQuestionStore } from '@/app/store/question-store';
+
 
 export default function ExportPage() {
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const itemsPerPage = 8;
     const [selectedDate, setSelectedDate] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
 
     const { fetchAnswersByDate } = useAnswerStore();
     const questionData = useAnswerStore((state) => state.answers);
+    const { generateAiReport } = useQuestionStore();
+    const aiReport = useQuestionStore((state) => state.aiReport);
 
-    // Cargar datos iniciales al montar la página
     useEffect(() => {
         const loadInitialData = async () => {
             try {
                 console.log('Cargando datos iniciales...');
-                // Si no hay fecha seleccionada, trae todos los datos
                 await fetchAnswersByDate('');
                 console.log('Datos iniciales cargados:', questionData);
             } catch (error) {
@@ -28,13 +30,29 @@ export default function ExportPage() {
         };
 
         loadInitialData();
-    }, []); // Este efecto se ejecuta solo una vez, al montar la página
+    }, []);
 
-    // Manejar cambios de fecha
+    useEffect(() => {
+        if (questionData && questionData.length > 0) {
+            try {
+                const questionDataString = JSON.stringify(questionData);
+                generateAiReport(questionDataString);
+            } catch (error) {
+                console.error("Error al convertir questionData a string:", error);
+                setErrorMessage('Ocurrió un error al preparar los datos para el reporte AI.');
+            }
+        }
+    }, [questionData]);
+
+    useEffect(() => {
+        console.log('aiReport:', aiReport)
+    }, [aiReport])
+
+
+
     const handleDateChange = (month: string, year: string) => {
         if (month && year) {
             const formattedDate = `${year}-${month}`;
-            console.log('Fecha seleccionada:', formattedDate); // Verificar formato
             setSelectedDate(formattedDate);
             setErrorMessage('');
         } else {
@@ -43,13 +61,10 @@ export default function ExportPage() {
         }
     };
 
-    // Buscar respuestas al hacer clic en el botón "Buscar"
     const handleSearch = async () => {
         if (selectedDate) {
-            console.log('Consultando datos para la fecha:', selectedDate);
             try {
                 await fetchAnswersByDate(selectedDate);
-                console.log('Datos recibidos:', questionData); // Verificar estructura
                 setErrorMessage('');
             } catch (error) {
                 console.error('Error al buscar respuestas:', error);
@@ -60,91 +75,90 @@ export default function ExportPage() {
         }
     };
 
-    // Calcular total de páginas y datos actuales
-    const totalPages = Math.ceil(questionData.length / itemsPerPage);
-    const currentData = questionData.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
-
     return (
-        <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-            
-            <p>Selecciona la fecha de la retrospectiva a exportar:</p>
+        <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+            <p className="text-lg mb-4">Selecciona la fecha de la retrospectiva a exportar:</p>
             <div className="my-6 flex items-center">
-                
                 <DateSelector onDateChange={handleDateChange} />
                 <button
                     onClick={handleSearch}
-                    className="ml-4 p-2 bg-blue-500 text-white rounded"
+                    className="ml-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
                     Buscar
                 </button>
             </div>
             {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
 
-            {/* Tabla compacta para las preguntas y respuestas */}
-            <div className="overflow-x-auto">
-                <table className="min-w-full bg-white border border-gray-300">
-                    <thead>
-                        <tr className="bg-gray-200">
-                            <th className="px-4 py-2 border">Miembro</th>
-                            <th className="px-4 py-2 border">Pregunta</th>
-                            <th className="px-4 py-2 border">Respuesta</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentData.length > 0 ? (
-                            currentData.map((item, index) => (
-                                <tr key={index} className="hover:bg-gray-100 text-gray-700">
-                                    <td className="px-4 py-2 border text-gray-700">{item.member}</td>
-                                    <td className="px-4 py-2 border text-gray-700">{item.question}</td>
-                                    <td className="px-4 py-2 border text-gray-700">{item.answer}</td>
-                                </tr>
+            {/* Tabla con scroll */}
+            <div className="overflow-y-auto mt-6 max-h-[400px]">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Miembro</TableHead>
+                            <TableHead>Pregunta</TableHead>
+                            <TableHead>Respuesta</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {questionData.length > 0 ? (
+                            questionData.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{item.member}</TableCell>
+                                    <TableCell>{item.question}</TableCell>
+                                    <TableCell>{item.answer}</TableCell>
+                                </TableRow>
                             ))
                         ) : (
-                            <tr>
-                                <td
-                                    colSpan={3}
-                                    className="px-4 py-2 text-center text-gray-500"
-                                >
-                                    No hay datos disponibles.
-                                </td>
-                            </tr>
+                            <TableRow>
+                                <TableCell colSpan={3}>No hay datos disponibles.</TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
 
-            {/* Paginación */}
-            <div className="flex justify-between items-center mt-4">
+            {/* Botón para generar y descargar el PDF */}
+            <div className="flex w-full justify-center mt-6">
                 <button
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="px-3 py-1 bg-blue-500 text-white rounded disabled:bg-gray-300"
+                    onClick={() => generatePDF(questionData, selectedDate)}
+                    className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                 >
-                    Anterior
+                    Descargar PDF
                 </button>
-                <span className="text-gray-700">
-                    Página {currentPage} de {totalPages}
-                </span>
+            </div>
+            {/* Reporte AI: */}
+            
+            <div>
+                <h2 className="text-xl font-bold mb-4">Generar reporte AI</h2>
+                <textarea
+                    value={aiReport}
+                    readOnly
+                    className="w-full h-28 p-2 text-sm border-2 rounded-lg border-gray-300 mb-4"
+                    placeholder="El reporte generado aparecerá aquí..."
+                />
                 <button
-                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="px-3 py-1 bg-blue-500 text-white rounded disabled:bg-gray-300"
+                    onClick={() => {
+                        if (questionData && questionData.length > 0) {
+                            try {
+                                const questionDataString = JSON.stringify(questionData);
+                                generateAiReport(questionDataString);
+                            } catch (error) {
+                                console.error("Error al generar el reporte AI:", error);
+                                setErrorMessage("Ocurrió un error al generar el reporte AI.");
+                            }
+                        } else {
+                            setErrorMessage("No hay datos disponibles para generar el reporte AI.");
+                        }
+                    }}
+                    className="px-6 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
                 >
-                    Siguiente
+                    Generar Reporte AI
                 </button>
+                {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
             </div>
 
-            {/* Botón de exportar a PDF */}
-            <div className="flex w-full justify-center">
-                <button
-                    className="mt-4 p-2 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-                >
-                    Exportar a PDF
-                </button>
-            </div>
+            
+
         </div>
     );
 }
