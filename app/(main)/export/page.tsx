@@ -128,14 +128,17 @@ export default function ExportPage() {
             </div>
             {/* Reporte AI: */}
             
-            <div>
-                <h2 className="text-xl font-bold mb-4">Generar reporte AI</h2>
+            <div className='mt-9 items-center justify-center '>
+                <h2 className="text-xl font-bold mb-8">Generar reporte AI</h2>
+                <p className='text-sm mb-2'>Genera un reporte con inteligencia artificial para la retrospectiva seleccionada. Analiza las respuestas de los usuarios y proporciona recomendaciones para mejorar el trabajo del equipo.</p>
+                
                 <textarea
                     value={aiReport}
                     readOnly
-                    className="w-full h-28 p-2 text-sm border-2 rounded-lg border-gray-300 mb-4"
+                    className="w-full h-48 p-2 text-sm border-2 rounded-lg border-gray-300 mb-4 my-4"
                     placeholder="El reporte generado aparecerá aquí..."
                 />
+                <div className='flex justify-center'>
                 <button
                     onClick={() => {
                         if (questionData && questionData.length > 0) {
@@ -155,6 +158,7 @@ export default function ExportPage() {
                     Generar Reporte AI
                 </button>
                 {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
+                </div>
             </div>
 
             
