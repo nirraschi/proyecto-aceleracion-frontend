@@ -91,7 +91,7 @@ export default function StartPage() {
 
             <button
                 onClick={generateRandomQuestion}
-                className="w-full p-2 mb-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                className="w-full p-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
                 Generar pregunta aleatoria
             </button>
@@ -114,7 +114,7 @@ export default function StartPage() {
 
             <button
                 onClick={handleSubmit}
-                className="w-full p-2  text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                className="w-full p-2  text-white bg-green-500 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
             >
                 Enviar respuesta
             </button>

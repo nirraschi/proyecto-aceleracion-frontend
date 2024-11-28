@@ -41,7 +41,7 @@ export default function AboutPage() {
                 </div>
 
                 <div className="mt-6 text-center">
-                    <Link href="/" className="text-blue-500 hover:underline">
+                    <Link href="/" className=" text-blue-600 hover:text-blue-500 font-medium">
                         Volver al inicio
                     </Link>
                 </div>

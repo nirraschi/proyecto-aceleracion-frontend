@@ -6,6 +6,7 @@ import { auth, db } from '@/app/lib/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import Link from 'next/link';
+import { Toaster } from 'react-hot-toast';
 
 export default function RegisterPage() {
     const [email, setEmail] = useState('');
@@ -45,71 +46,78 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
-                <div className="px-6 py-8">
-                    <h1 className="text-center text-3xl font-bold text-gray-900 mb-8">
-                        Create an account
-                    </h1>
+        <div className="min-h-screen bg-gray-100">
+            <Toaster position='top-right' reverseOrder={false} />
+            <header className="bg-blue-500 text-white p-4">
+                <h1 className="text-2xl font-bold">LookBack</h1>
+            </header>
+            
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                <div className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div className="px-6 py-8">
+                        <h1 className="text-center text-3xl font-bold text-gray-900 mb-8">
+                            Crea una cuenta
+                        </h1>
 
-                    <form onSubmit={handleRegister} className="space-y-6">
-                        {error && (
-                            <div className="p-4 bg-red-50 border border-red-200 rounded-md">
-                                <p className="text-sm text-red-600">{error}</p>
-                            </div>
-                        )}
-
-                        <div>
-                            <input
-                                type="email"
-                                placeholder="Email address"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
-                                disabled={loading}
-                                autoComplete="email"
-                            />
-                        </div>
-
-                        <div>
-                            <input
-                                type="password"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
-                                disabled={loading}
-                                autoComplete="new-password"
-                                minLength={6}
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {loading ? (
-                                <div className="flex items-center">
-                                    <div className="w-5 h-5 border-t-2 border-white border-solid rounded-full animate-spin mr-2"></div>
-                                    Creating account...
+                        <form onSubmit={handleRegister} className="space-y-6">
+                            {error && (
+                                <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+                                    <p className="text-sm text-red-600">{error}</p>
                                 </div>
-                            ) : (
-                                'Create account'
                             )}
-                        </button>
 
-                        <div className="text-center">
-                            <Link
-                                href="/"
-                                className="text-sm text-blue-600 hover:text-blue-500 font-medium"
+                            <div>
+                                <input
+                                    type="email"
+                                    placeholder="Dirección de correo electrónico"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                                    disabled={loading}
+                                    autoComplete="email"
+                                />
+                            </div>
+
+                            <div>
+                                <input
+                                    type="password"
+                                    placeholder="Contraseña"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                                    disabled={loading}
+                                    autoComplete="new-password"
+                                    minLength={6}
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Already have an account? Sign in
-                            </Link>
-                        </div>
-                    </form>
+                                {loading ? (
+                                    <div className="flex items-center">
+                                        <div className="w-5 h-5 border-t-2 border-white border-solid rounded-full animate-spin mr-2"></div>
+                                        Creando cuenta...
+                                    </div>
+                                ) : (
+                                    'Crear cuenta'
+                                )}
+                            </button>
+
+                            <div className="text-center">
+                                <Link
+                                    href="/"
+                                    className="text-sm text-blue-600 hover:text-blue-500 font-medium"
+                                >
+                                    ¿Ya tienes una cuenta? Ingresa aquí
+                                </Link>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

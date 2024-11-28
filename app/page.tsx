@@ -64,7 +64,7 @@ export default function SplitLandingPage() {
             </div>
             
             <div className="mt-6 text-center">
-              <Link href="/info" className="text-blue-500 hover:underline">
+              <Link href="/info" className="text-sm text-blue-600 hover:text-blue-500 font-medium">
                 Aprende más sobre cómo LookBack puede mejorar tus retrospectivas
               </Link>
             </div>
@@ -76,7 +76,7 @@ export default function SplitLandingPage() {
           <div className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="px-6 py-8">
               <h1 className="text-center text-3xl font-bold text-gray-900 mb-8">
-                Sign in to your account
+                Inicia sesión en tu cuenta
               </h1>
 
               <form onSubmit={handleLogin} className="space-y-6">
@@ -89,7 +89,7 @@ export default function SplitLandingPage() {
                 <div>
                   <input
                     type="email"
-                    placeholder="Email address"
+                    placeholder="Dirección de correo electrónico"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -101,7 +101,7 @@ export default function SplitLandingPage() {
                 <div>
                   <input
                     type="password"
-                    placeholder="Password"
+                    placeholder="Contraseña"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -113,15 +113,15 @@ export default function SplitLandingPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <div className="flex items-center">
                       <div className="w-5 h-5 border-t-2 border-white border-solid rounded-full animate-spin mr-2"></div>
-                      Signing in...
+                      Ingresando...
                     </div>
                   ) : (
-                    'Sign in'
+                    'Ingresa'
                   )}
                 </button>
 
@@ -130,7 +130,7 @@ export default function SplitLandingPage() {
                     href="/register"
                     className="text-sm text-blue-600 hover:text-blue-500 font-medium"
                   >
-                    Don&apos;t have an account? Sign up
+                    ¿Todavía no creaste una cuenta? Registrate aquí
                   </Link>
                 </div>
               </form>
