@@ -6,9 +6,9 @@ import {  updateDoc, deleteDoc, doc } from "firebase/firestore";
 
 export async function PUT(
     request: Request,
-    { params }: { params: { id: string }}
+    { params }: { params: Promise<{ id: string }> }
 ) {
-    const { id } = params;
+    const { id } = await params;
     try {
         const { text } = await request.json()
         await updateDoc(doc(db, 'questions', id), { text })
@@ -22,10 +22,10 @@ export async function PUT(
 
 export async function DELETE(
     request: Request,
-    { params }: { params: { id: string }}
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         await deleteDoc(doc(db, 'questions', id))
         return NextResponse.json({ success: true })
         
