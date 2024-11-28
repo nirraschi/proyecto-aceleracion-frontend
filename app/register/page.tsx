@@ -32,7 +32,7 @@ export default function RegisterPage() {
                 createdAt: new Date(),
             });
 
-            router.push('/dashboard');
+            router.push('/start');
         } catch (error) {
             if (error instanceof Error) {
                 setError(error.message);
