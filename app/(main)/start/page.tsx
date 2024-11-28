@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react'
 import DateSelector from '../../components/DateSelector/date-selector'
 import { useQuestionStore } from '@/app/store/question-store'
 import { useAnswerStore } from '@/app/store/answers-store'
+import { toast } from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast';
+
 
 
 export default function StartPage() {
@@ -68,6 +71,7 @@ export default function StartPage() {
                     setRandomName('')
                     //setSelectedDate('')
                     setErrorMessage('') // Limpia el mensaje de error al enviar correctamente
+                    toast.success('Respuesta enviada correctamente')
                 })
                 .catch((error) => {
                     console.error('Error al enviar la respuesta:', error)
@@ -80,6 +84,7 @@ export default function StartPage() {
 
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md ">
+            <Toaster position='top-right' reverseOrder={false} />
             <div className="mb-6">
                 <DateSelector onDateChange={handleDateChange} />
             </div>

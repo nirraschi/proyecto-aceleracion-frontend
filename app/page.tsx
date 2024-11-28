@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { auth } from '@/app/lib/firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
+import { Toaster } from 'react-hot-toast';
+
 
 export default function SplitLandingPage() {
   // Login state
@@ -35,6 +37,7 @@ export default function SplitLandingPage() {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      <Toaster position='top-right' reverseOrder={false} />
       <header className="bg-blue-500 text-white p-4">
         <h1 className="text-2xl font-bold">LookBack</h1>
       </header>

@@ -32,7 +32,7 @@ export default function ExportPage() {
         loadInitialData();
     }, []);
 
-    useEffect(() => {
+    const handleGenerateAiReport = () => {
         if (questionData && questionData.length > 0) {
             try {
                 const questionDataString = JSON.stringify(questionData);
@@ -40,9 +40,11 @@ export default function ExportPage() {
             } catch (error) {
                 console.error("Error al convertir questionData a string:", error);
                 setErrorMessage('Ocurrió un error al preparar los datos para el reporte AI.');
+            } 
+        }else {
+                setErrorMessage('No hay datos disponibles para generar el reporte AI.');
             }
-        }
-    }, [questionData]);
+        };
 
     useEffect(() => {
         console.log('aiReport:', aiReport)
@@ -140,23 +142,11 @@ export default function ExportPage() {
                 />
                 <div className='flex justify-center'>
                 <button
-                    onClick={() => {
-                        if (questionData && questionData.length > 0) {
-                            try {
-                                const questionDataString = JSON.stringify(questionData);
-                                generateAiReport(questionDataString);
-                            } catch (error) {
-                                console.error("Error al generar el reporte AI:", error);
-                                setErrorMessage("Ocurrió un error al generar el reporte AI.");
-                            }
-                        } else {
-                            setErrorMessage("No hay datos disponibles para generar el reporte AI.");
-                        }
-                    }}
-                    className="px-6 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
-                >
-                    Generar Reporte AI
-                </button>
+                        onClick={handleGenerateAiReport}
+                        className="px-6 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+                    >
+                        Generar Reporte AI
+                    </button>
                 {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
                 </div>
             </div>
